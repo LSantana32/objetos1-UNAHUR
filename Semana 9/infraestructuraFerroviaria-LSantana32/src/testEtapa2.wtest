@@ -1,0 +1,39 @@
+import vagones.*
+import formacion.*
+import locomotoras.*
+
+describe "test etapa 1"{
+	
+	const vagon1= new VagonPasajeros(largo=10,ancho=4)
+	const vagon2= new VagonPasajeros(largo=7,ancho=2,estaOrdenado=false,tieneBanio=false)
+	const vagon3= new VagonCarga(cargaMaximaIdeal=6800,maderasSueltas=5)
+	const vagon4= new VagonDormitorio(compartimientos=8,camas=3)
+	const form1=new Formacion(vagones=[vagon1,vagon2,vagon3,vagon4])
+	const loco1=new Locomotora(peso=3000,pesoArrastrado=20000)
+	const loco2=new Locomotora(peso=5000,pesoArrastrado=22000)
+	const form2=new Formacion(vagones=[vagon1,vagon2,vagon3,vagon4],locomotoras=[loco1])
+	
+	
+	
+	test "peso maximo es 29800"{
+		assert.equals(29800,form1.pesoMaximo())
+	}
+	
+	test"es eficiente con loco1, no puede moverse y faltan 12800 de empuje"{
+		assert.equals(true,form2.esEficiente())
+		assert.equals(false,form2.puedeMoverse())
+		assert.equals(12800, form2.kilosDeEmpujeQueFaltan())
+	}
+	
+	test"si le agregamos loco 2, no es eficiente, si puede moverse y le faltan 0 de empuje"{
+		form2.addLocomotora(loco2)
+		assert.equals(false,form2.esEficiente())
+		assert.equals(true,form2.puedeMoverse())
+		assert.equals(0,form2.kilosDeEmpujeQueFaltan())
+	}
+	
+
+	
+	
+	
+}

@@ -1,0 +1,60 @@
+import vagones.*
+import formacion.*
+
+describe "test etapa 1"{
+	
+	const vagon1= new VagonPasajeros(largo=10,ancho=4)
+	const vagon2= new VagonPasajeros(largo=7,ancho=2,estaOrdenado=false,tieneBanio=false)
+	const vagon3= new VagonCarga(cargaMaximaIdeal=6800,maderasSueltas=5)
+	const vagon4= new VagonDormitorio(compartimientos=8,camas=3)
+	const form1=new Formacion(vagones=[vagon1,vagon2,vagon3,vagon4])
+	const vagon5= new VagonCarga(cargaMaximaIdeal=8000,maderasSueltas=1)
+	const vagon6= new VagonDormitorio(compartimientos=15,camas=4)
+	const form2=new Formacion(vagones=[vagon5,vagon6])
+	
+	
+	test"cantidad de pasajeros"{
+		assert.equals(100,vagon1.cantPasajeros())
+		assert.equals(41,vagon2.cantPasajeros())
+		assert.equals(0,vagon3.cantPasajeros())
+		assert.equals(24,vagon4.cantPasajeros())
+	}
+	
+	test"sin mantenimiento"{
+		assert.equals(165,form1.cantPasajeros())
+		assert.equals(1,form1.cantPopulares())
+		assert.equals(false,form1.esCarguera())
+		assert.equals(4220,form1.dispersionDePesos())
+		assert.equals(2,form1.cantConBanios())
+	}
+	
+	test"con mantenimiento"{
+		form1.mantenimiento()
+		assert.equals(180,form1.cantPasajeros())
+		assert.equals(2,form1.cantPopulares())
+		assert.equals(false,form1.esCarguera())
+		assert.equals(3200,form1.dispersionDePesos())
+		assert.equals(2,form1.cantConBanios())
+	}
+	
+	test"segunda Formacion sin mantenimiento"{
+		assert.equals(60,form2.cantPasajeros())
+		assert.equals(1,form2.cantPopulares())
+		assert.equals(true,form2.esCarguera())
+		assert.equals(900,form2.dispersionDePesos())
+		assert.equals(1,form2.cantConBanios())
+	}
+	
+	test"segunda Formacion con mantenimiento"{
+		form2.mantenimiento()
+		assert.equals(60,form2.cantPasajeros())
+		assert.equals(1,form2.cantPopulares())
+		assert.equals(true,form2.esCarguera())
+		assert.equals(500,form2.dispersionDePesos())
+		assert.equals(1,form2.cantConBanios())
+
+	
+	}
+
+
+}

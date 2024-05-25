@@ -1,0 +1,172 @@
+import universidades.*
+import profesionales.*
+import empresa.*
+
+test "verificar contratados en empresa" {
+	const sanMartin=new Universidad()
+	sanMartin.provincia("Buenos Aires")
+	sanMartin.honorariosRecomendados(3500)
+	
+	const rosario=new Universidad()
+	rosario.provincia("Santa fe")
+	rosario.honorariosRecomendados(2800)
+	
+	const corrientes=new Universidad()
+	corrientes.provincia("Corrientes")
+	corrientes.honorariosRecomendados(4200)
+	
+	const hurlingham=new Universidad()
+	hurlingham.provincia("Buenos Aires")
+	hurlingham.honorariosRecomendados(8800)
+	
+	const juana=new ProfesionalVinculado(universidad=rosario)
+	juana.universidad(rosario)
+	
+	const melina=new ProfesionalAsociado(universidad=corrientes)
+	melina.universidad(corrientes)
+	
+	const rocio=new ProfesionalLibre(universidad=hurlingham)
+	rocio.universidad(hurlingham)
+	rocio.honorariosPorHora(5000)
+	rocio.provinciasDondePuedeTrabajar(#{"Santa fe","Cordoba","Buenos Aires"})
+	
+	const luciana=new ProfesionalLibre(universidad=rosario)
+	luciana.universidad(rosario)
+	luciana.honorariosPorHora(3200)
+	luciana.provinciasDondePuedeTrabajar(#{"Santa fe","Entre Rios"})
+	
+	const empresa=new Empresa(honorariosDeReferencia=3500)
+	empresa.contratar(juana)
+	empresa.contratar(melina)
+	empresa.contratar(rocio)
+	empresa.contratar(luciana)
+	
+	assert.equals([juana,melina,rocio,luciana], empresa.profesionales())
+}
+
+test "universidades formadoras deben ser 2 rosario, uno en hurlingham y uno corrientes"{
+		const sanMartin=new Universidad()
+	sanMartin.provincia("Buenos Aires")
+	sanMartin.honorariosRecomendados(3500)
+	
+	const rosario=new Universidad()
+	rosario.provincia("Santa fe")
+	rosario.honorariosRecomendados(2800)
+	
+	const corrientes=new Universidad()
+	corrientes.provincia("Corrientes")
+	corrientes.honorariosRecomendados(4200)
+	
+	const hurlingham=new Universidad()
+	hurlingham.provincia("Buenos Aires")
+	hurlingham.honorariosRecomendados(8800)
+	
+	const juana=new ProfesionalVinculado(universidad=rosario)
+	juana.universidad(rosario)
+	
+	const melina=new ProfesionalAsociado(universidad=corrientes)
+	melina.universidad(corrientes)
+	
+	const rocio=new ProfesionalLibre(universidad=hurlingham)
+	rocio.universidad(hurlingham)
+	rocio.honorariosPorHora(5000)
+	rocio.provinciasDondePuedeTrabajar(#{"Santa fe","Cordoba","Buenos Aires"})
+	
+	const luciana=new ProfesionalLibre(universidad=rosario)
+	luciana.universidad(rosario)
+	luciana.honorariosPorHora(3200)
+	luciana.provinciasDondePuedeTrabajar(#{"Santa fe","Entre Rios"})
+	
+	const empresa=new Empresa(honorariosDeReferencia=3500)
+	empresa.contratar(juana)
+	empresa.contratar(melina)
+	empresa.contratar(rocio)
+	empresa.contratar(luciana)
+	
+	assert.equals([rosario,corrientes,hurlingham,rosario], empresa.universidadesFormadoras())
+}
+
+test "devolver profesionales caros unicamente a rocio como coleccion"{
+		const sanMartin=new Universidad()
+	sanMartin.provincia("Buenos Aires")
+	sanMartin.honorariosRecomendados(3500)
+	
+	const rosario=new Universidad()
+	rosario.provincia("Santa fe")
+	rosario.honorariosRecomendados(2800)
+	
+	const corrientes=new Universidad()
+	corrientes.provincia("Corrientes")
+	corrientes.honorariosRecomendados(4200)
+	
+	const hurlingham=new Universidad()
+	hurlingham.provincia("Buenos Aires")
+	hurlingham.honorariosRecomendados(8800)
+	
+	const juana=new ProfesionalVinculado(universidad=rosario)
+	juana.universidad(rosario)
+	
+	const melina=new ProfesionalAsociado(universidad=corrientes)
+	melina.universidad(corrientes)
+	
+	const rocio=new ProfesionalLibre(universidad=hurlingham)
+	rocio.universidad(hurlingham)
+	rocio.honorariosPorHora(5000)
+	rocio.provinciasDondePuedeTrabajar(#{"Santa fe","Cordoba","Buenos Aires"})
+	
+	const luciana=new ProfesionalLibre(universidad=rosario)
+	luciana.universidad(rosario)
+	luciana.honorariosPorHora(3200)
+	luciana.provinciasDondePuedeTrabajar(#{"Santa fe","Entre Rios"})
+	
+	const empresa=new Empresa(honorariosDeReferencia=3500)
+	empresa.contratar(juana)
+	empresa.contratar(melina)
+	empresa.contratar(rocio)
+	empresa.contratar(luciana)
+	
+	assert.equals(#{rocio}, empresa.profesionalesCaros())
+}
+
+test "profesional mas barato debe salir juana"{
+		const sanMartin=new Universidad()
+	sanMartin.provincia("Buenos Aires")
+	sanMartin.honorariosRecomendados(3500)
+	
+	const rosario=new Universidad()
+	rosario.provincia("Santa fe")
+	rosario.honorariosRecomendados(2800)
+	
+	const corrientes=new Universidad()
+	corrientes.provincia("Corrientes")
+	corrientes.honorariosRecomendados(4200)
+	
+	const hurlingham=new Universidad()
+	hurlingham.provincia("Buenos Aires")
+	hurlingham.honorariosRecomendados(8800)
+	
+	const juana=new ProfesionalVinculado(universidad=rosario)
+	juana.universidad(rosario)
+	
+	const melina=new ProfesionalAsociado(universidad=corrientes)
+	melina.universidad(corrientes)
+	
+	const rocio=new ProfesionalLibre(universidad=hurlingham)
+	rocio.universidad(hurlingham)
+	rocio.honorariosPorHora(5000)
+	rocio.provinciasDondePuedeTrabajar(#{"Santa fe","Cordoba","Buenos Aires"})
+	
+	const luciana=new ProfesionalLibre(universidad=rosario)
+	luciana.universidad(rosario)
+	luciana.honorariosPorHora(3200)
+	luciana.provinciasDondePuedeTrabajar(#{"Santa fe","Entre Rios"})
+	
+	const empresa=new Empresa(honorariosDeReferencia=3500)
+	empresa.contratar(juana)
+	empresa.contratar(melina)
+	empresa.contratar(rocio)
+	empresa.contratar(luciana)
+	
+	assert.equals(juana, empresa.profesionalMasBarato())
+}
+
