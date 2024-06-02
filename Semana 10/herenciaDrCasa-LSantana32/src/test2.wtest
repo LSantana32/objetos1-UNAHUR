@@ -1,0 +1,37 @@
+import enfermedades.*
+import persona.*
+import medicos.*
+
+describe "test enfermedades y personas"{
+	const malaria = new EnfermedadInfecciosa(celulasAmenazadas=500)
+	const otitis = new EnfermedadInfecciosa(celulasAmenazadas=100)
+	const lupus = new EnfermedadInfecciosa(celulasAmenazadas=1000)
+	const logan = new Persona(temperatura=36,celulas=3000000,enfermedades=[malaria,otitis,lupus])
+	const cameron= new Medico()
+	const casa= new MedicoEnJefe()
+	
+	test "atenuar malaria 100 cel y lupus 500 cel"{
+		malaria.atenuar(100)
+		lupus.atenuar(500)
+		assert.equals(400,malaria.celulasAmenazadas())
+		assert.equals(500,lupus.celulasAmenazadas())
+	}
+	test "hacer que casa atienda a cameron"{
+		casa.darOrden(cameron,100,logan)
+		assert.equals(1300,logan.celulasAmenazadasTotales())
+		assert.equals([malaria,lupus],logan.enfermedades())
+	}
+	test "que los medicos contraigan malaria"{
+		logan.contagiar(malaria,cameron)
+		cameron.contagiar(malaria,casa)
+		assert.equals([malaria],cameron.enfermedades())
+		assert.equals([malaria],casa.enfermedades())
+	}
+	test "Que casa contraiga la muerte"{
+		casa.contraerEnfermedad(laMuerte)
+		assert.equals(0, casa.temperatura())
+		assert.equals(false,laMuerte.esCurable())
+	}
+}
+	
+	
