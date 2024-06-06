@@ -1,48 +1,35 @@
-import plantas.*
+import semillas.*
 
-class Parcela{
-	const ancho //mts
-	const largo //mts
-	const property horasAlSol // Xdia
-	const plantas=[]
+class Parcela {
+	const property ancho
+	const property largo
+	var property horasDeSolP=0
+	const property plantas=[]
+	method superficie()= ancho*largo
+	method cantidadMaximaPlantas()= self.superficie() / if(ancho>largo)5 else 3 + largo
+	method tieneComplicaciones()= plantas.any{p=>p.horasDeSol()<horasDeSolP}
+							//ese +1 seria la planta que agregariamos
+	method plantar(unaPlanta)= if (plantas.size()+1>self.cantidadMaximaPlantas() or horasDeSolP>unaPlanta.horasDeSol()+2)self.error("No hay espacio en la parcela o la planta no tolera las horas de sol recibidas en la parcela")else plantas.add(unaPlanta)
 	
-	method plantas()=plantas
-	method superficie()=ancho*largo
-	method cantidadMaxima(){
-		return if(ancho>largo)self.superficie()/5
-			else self.superficie()/3+largo
-	}
-	method tieneComplicaciones(){
-		return plantas.any({p=>p.horasToleradas()<horasAlSol})
-	}
-	method plantarPlanta(planta){
-		if(plantas.size()<self.cantidadMaxima()&&horasAlSol<planta.horasToleradas()+2)
-			plantas.add(planta)
-	}
-	method seAsociaBien(planta)
-	method cantidadPlantasAsociadas(){
-		return plantas.count({p=>self.seAsociaBien(p)})
-	}
+	method tieneSueloExtenso()= self.superficie()>6
+	
+	method hayPlantaMayorAMetroYMedio()= plantas.any{p=>p.altura()>1.5}
+	
+	method hayMaximoDeUnaPlanta()= plantas.size()<=1
+	
+	method seAsociaBien(unaPlanta)
+	
+	method cantidadDePlantas()= plantas.size()
+	
+	method cantidadBienAsociadas()= plantas.count{p=>self.seAsociaBien(p)}
 }
+
 
 class ParcelaEcologica inherits Parcela{
-	override method seAsociaBien(planta){
-		return !self.tieneComplicaciones()&&planta.parcelaIdeal(self)
-	}
-}
-class ParcelaIndustrial inherits Parcela{
-	override method seAsociaBien(planta){
-		return self.plantas().size()<=2&&planta.esFuerte()
-	}
+	override method seAsociaBien(unaPlanta)= not self.tieneComplicaciones() and unaPlanta.condicionIdeal(self)
 }
 
-object inta{
-	const parcelas=[]
-	method promedioDePlantas(){
-		return parcelas.sum({p=>p.plantas().size()}) / parcelas.sum()
-	}
-	method masSustentable(){
-		return parcelas.filter({pa=>pa.plantas().size()>4})
-				.max({pa=>pa.cantidadPlantasAsociadas()/pa.plantas().size()})
-	}
+class ParcelaIndustrial inherits Parcela{
+	override method seAsociaBien(unaPlanta)= self.cantidadDePlantas()<=2 and unaPlanta.esFuerte()
 }
+
