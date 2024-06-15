@@ -1,0 +1,51 @@
+import viajes.*
+
+describe "viajes"{
+	const ciudad1= new ExcursionACiudad(cantAtracciones=4)
+	const tropical1=new ExcursionACiudadTropical(cantAtracciones=4)
+	const ciudad2= new ExcursionACiudad(cantAtracciones=8)
+	const tropical2=new ExcursionACiudadTropical(cantAtracciones=8)
+	const tropical3=new ExcursionACiudadTropical(cantAtracciones=10)
+	
+	const trekking1=new SalidaTrekking(kmDeSenderos=100,diasSolAlAnio=130)
+	const trekking2=new SalidaTrekking(kmDeSenderos=50,diasSolAlAnio=240)
+	const trekking3=new SalidaTrekking(kmDeSenderos=250,diasSolAlAnio=130)
+	
+	test "ciudad comun y tropical"{
+		assert.equals(2,ciudad1.diasDeAct())
+		assert.equals(false,ciudad1.implicaEsfuerzo())
+		assert.equals(false,ciudad1.sirveParaBroncearse())
+		
+		assert.equals(3,tropical1.diasDeAct())
+		assert.equals(false,tropical1.implicaEsfuerzo())
+		assert.equals(true,tropical1.sirveParaBroncearse())
+		
+		assert.equals(4,ciudad2.diasDeAct())
+		assert.equals(true,ciudad2.implicaEsfuerzo())
+		assert.equals(false,ciudad2.sirveParaBroncearse())
+		
+		assert.equals(5,tropical2.diasDeAct())
+		assert.equals(true,tropical2.implicaEsfuerzo())
+		assert.equals(true,tropical2.sirveParaBroncearse())
+		
+		assert.equals(6,tropical3.diasDeAct())
+		assert.equals(false,tropical3.implicaEsfuerzo())
+		assert.equals(true,tropical3.sirveParaBroncearse())
+	}
+	
+	test "trekking"{
+		assert.equals(2,trekking1.diasDeAct())
+		assert.equals(true,trekking1.implicaEsfuerzo())
+		assert.equals(false,trekking1.sirveParaBroncearse())
+		
+		assert.equals(1,trekking2.diasDeAct())
+		assert.equals(false,trekking2.implicaEsfuerzo())
+		assert.equals(true,trekking2.sirveParaBroncearse())
+		
+		assert.equals(5,trekking3.diasDeAct())
+		assert.equals(true,trekking3.implicaEsfuerzo())
+		assert.equals(true,trekking3.sirveParaBroncearse())
+	}
+
+}
+
